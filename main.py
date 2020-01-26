@@ -85,10 +85,20 @@ def view_game(gameId):
 @app.route('/game/<gameId>', methods=['POST'])
 def add_to_game(gameId):
     global current
-    joinGame(current, gameId)
-    # return processed_text
-    gameName = getGameName(gameId)[0]
-    return render_template("game.html", players=viewPlayers(gameId), user=current, name=gameName)
+    if (current == "Not Signed In"):
+        return flask.redirect(url_for("sign_in"))
+
+    if request.form['subbutton'] == 'Join':
+        joinGame(current, gameId)
+        # return processed_text
+        gameName = getGameName(gameId)[0]
+        return render_template("game.html", players=viewPlayers(gameId), user=current, name=gameName)
+    elif request.form['subbutton'] == 'Start Game':
+        assign(gameId)
+        if (current == "Not Signed In"):
+            return flask.redirect(url_for("sign_in"))
+        else:
+            return flask.redirect(url_for("userData"))
 
 @app.route("/newplayer")
 def view_new_player():
@@ -100,6 +110,7 @@ def add_player():
     name = request.form['name']
     global current
     current = str(addPlayer(name))
+
     return flask.redirect(url_for("view_games"))
 
 
@@ -148,8 +159,10 @@ if __name__ == '__main__':
     # This is used when running locally only. When deploying to Google App
     # Engine, a webserver process such as Gunicorn will serve the app. This
     # can be configured by adding an `entrypoint` to app.yaml.
+
     port = os.getenv("PORT", 8080)
     app.run(host='0.0.0.0', port=port, debug=True)
+    #app.run(host='127.0.0.1', port=port, debug=True)
 # [END gae_python37_app]
 
 '''

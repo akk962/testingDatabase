@@ -15,8 +15,8 @@ for v in cursor:
 #GET INPUT FROM WEBSITE
 def createGame(name):
     nameOfGame = "Game 2"
-    sql = "INSERT INTO games( game_id, game_status, game_name ) VALUES (%s, %s, %s)"
-    val = ( 4, "OPEN", name)
+    sql = "INSERT INTO games(game_status, game_name ) VALUES (%s, %s)"
+    val = ( "OPEN", name)
     cursor.execute(sql, val)
     mariadb_connection.commit()
 
@@ -184,4 +184,3 @@ def assign(game_id):
     mariadb_connection.commit()
 
 
-assign(4)
