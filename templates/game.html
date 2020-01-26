@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Game</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="/static/style2.css">
+
+</head>
+<body class="grey lighten-4">
+
+<nav>
+    <div class="nav-wrapper">
+        <ul class="left hide-on-med-and-down">
+            <li><a href="/games" class="active">Games</a></li>
+            <li><a href="/newplayer">New Player</a></li>
+            <li><a href="/signin">Sign In</a></li>
+        </ul>
+        {% if user %}
+        <span class="right">{{'User: ' + user}}</span>
+        {% else %}
+        <span class="right">No user</span>
+        {% endif %}
+    </div>
+</nav>
+<div class="container">
+
+    <h1>{{name}}</h1>
+
+    <form method="POST">
+        <input class="btn waves-effect waves-light" type="submit" value="Join">
+    </form>
+
+    <table class="">
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+        </tr>
+        {% for x in players %}
+        <tr>
+            <td>{{ x[0] }}</td>
+            <td>{{ x[1] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+</body>
+</html>

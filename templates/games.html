@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Games</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="/static/style2.css">
+</head>
+<body class="grey lighten-4">
+
+<nav>
+    <div class="nav-wrapper">
+        <ul class="left hide-on-med-and-down">
+            <li><a href="/games" class="active">Games</a></li>
+            <li><a href="/newplayer">New Player</a></li>
+            <li><a href="/signin">Sign In</a></li>
+        </ul>
+        {% if user %}
+        <span class="right">{{'User: ' + user}}</span>
+        {% else %}
+        <span class="right">No user</span>
+        {% endif %}
+    </div>
+</nav>
+<div class="container">
+
+
+    <h1>All Games</h1>
+    <form method="POST">
+        <input placeholder="Game Name" name="text">
+        <input value = "create" class="btn waves-effect waves-light" type="submit">
+    </form>
+    <table class="highlight">
+        <tr>
+            <th>Name</th>
+            <th>Status</th>
+        </tr>
+        {% for x in games %}
+        <tr>
+            <td><a href="{{ '/game/' + ((x[0]|string ~ name)) }}">{{ (x[1]) }}</a></td>
+            <td><a href="{{ '/game/' + ((x[0]|string ~ name)) }}">{{ (x[2]) }}</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h1>Hi!</h1>
+<form method="POST">
+    <input name="text">
+    <input type="submit">
+</form>
+<table class="centered thick-border">
+        <tr>
+                <th>First name</th>
+                <th>Age</th>
+                <th>Assasin</th>
+        </tr>
+        {% for k, v in dates.items() %}
+                <tr>
+                        <td>{{ k }}</td>
+                        <td>{{ v.firstName }}</td>
+                        <td>{{ v.assasin }}</td>
+                </tr>
+        {% endfor %}
+</table>
+
+</body>
+</html>
