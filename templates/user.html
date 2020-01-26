@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>New Player</title>
+    <title>{{ name }}</title>
     <!--link rel="stylesheet" type="text/css" href="/static/style.css"-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="/static/style2.css">
@@ -17,6 +17,7 @@
                 <li><a href="/newplayer" class="active">New Player</a></li>
                 <li><a href="/signin">Sign In</a></li>
                 <li><a href="/user" class="waves-effect waves-light btn">See your Target</a></li>
+
             </ul>
             {% if user %}
         <span class="right">{{'User: ' + user}}</span>
@@ -27,11 +28,10 @@
     </nav>
 <div class="container">
 
-    <h1>New Player</h1>
+    <h1>{{ (name)|string + ", your target is " + (target)|string +  "."}}</h1>
 
     <form method="POST">
-        <input placeholder="Name" name="name">
-        <input value="create" class="btn waves-effect waves-light" type="submit">
+        <input value="Terminate Yourself" class="btn waves-effect waves-light" type="submit">
     </form>
 </div>
 </body>

@@ -120,6 +120,30 @@ def sign_in_token():
     return flask.redirect(url_for("view_games"))
 
 
+@app.route('/user')
+def userData():
+    global current
+
+    if(current == "Not Signed In"):
+        return flask.redirect(url_for("sign_in"))
+
+    user =  current
+
+    name = getPlayerName(user)[0]
+    target = getPlayerName(getPlayerTarget(user)[0])[0]
+
+    # return processed_text
+    return render_template("user.html", target=target, name=name, user=current)
+
+@app.route('/user', methods=['POST'])
+def terminate_user():
+    global current
+    terminate(current)
+
+    # return processed_text
+    return flask.redirect(url_for("view_games"))
+
+
 if __name__ == '__main__':
     # This is used when running locally only. When deploying to Google App
     # Engine, a webserver process such as Gunicorn will serve the app. This

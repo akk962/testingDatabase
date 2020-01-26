@@ -4,7 +4,7 @@ from random import randrange
 import mysql.connector as mariadb
 import time
 mariadb_connection = mariadb.connect(user="TAMUHack2020!", password='TAMUHack2020!', database='AssassinApp2', port=3316)
-cursor = mariadb_connection.cursor()
+cursor = mariadb_connection.cursor(buffered=True)
 
 cursor.execute("SELECT * FROM player")
 
@@ -44,23 +44,57 @@ def joinGame(player_id, game_id):
     val2 = (player_id, game_id, randrange(1000), randrange(1000), "ACTIVE")
     cursor.execute(sql2, val2)
     mariadb_connection.commit()
+'''
+#PASS USER ID
+def getTarget(player_id, game_id):
+sql3 = "SELECT target FROM participant WHERE player_id= '2' "
+cursor.execute(sql3)
+myresult = cursor.fetchone()
+return myresult[0]
 
+#target terminated
+def terminateTarget(player_id, game_id):
+sql4 = "UPDATE participant SET player_status='PENDING' WHERE player_id =" + str(getTarget(player_id, game_id))
+cursor.execute(sql4)
+sql6 = "UPDATE participant WHERE player_id=" + player_id + " AND player_status= 'PENDING' SET target=" + str(getTarget(getTarget(player_id, game_id), game_id))
+mariadb_connection.commit()
+'''
 
 #My target
 #PASS USER ID
-def getTarget():
-    sql3 = "SELECT target FROM participant WHERE player_id= '2' "
+def getTarget(player_id):
+    sql3 = "SELECT target FROM participant WHERE player_id= " + str(player_id)
     cursor.execute(sql3)
     myresult = cursor.fetchone()
     return myresult[0]
 
 
 #target terminated
-def terminateTarget():
-    sql4 = "UPDATE participant SET player_status='PENDING' WHERE player_id =" + str(getTarget())
+'''
+def terminateTarget(player_id):
+    sql4 = "UPDATE participant SET player_status='PENDING' WHERE player_id =" + str(getTarget(player_id))
     cursor.execute(sql4)
     mariadb_connection.commit()
 
+'''
+def terminate(player_id):
+    sql7 = "UPDATE participant SET player_status='PENDING' WHERE player_id =" + str(player_id)
+    cursor.execute(sql7)
+
+    sql8 = "SELECT assassin FROM participant WHERE player_id= " + str(player_id)
+    cursor.execute(sql8)
+
+    assassin = cursor.fetchone()[0]
+    target = getTarget(player_id)
+
+    sql9 = "UPDATE participant SET target=" + str(target) + " WHERE player_id =" + str(assassin)
+    sq20 = "UPDATE participant SET assassin=" + str(assassin) + " WHERE player_id =" + str(target)
+    cursor.execute(sql9)
+    cursor.execute(sq20)
+
+    sq21 = "UPDATE participant SET assassin=NULL,target=NULL WHERE player_id =" + str(player_id)
+    cursor.execute(sq21)
+    mariadb_connection.commit()
 
 #confirm termination
 
@@ -86,6 +120,13 @@ def getPlayerName(playerId):
     cursor.execute(sql6)
     myresult3 = cursor.fetchone()
     return myresult3
+
+def getPlayerTarget(playerId):
+    sql6 = "SELECT target FROM participant WHERE player_id=" + str(playerId)
+    cursor.execute(sql6)
+    myresult3 = cursor.fetchone()
+    return myresult3
+
 
 def getGameName(gameId):
     sql5 = "SELECT game_name FROM games WHERE game_id='"+gameId+"'"
