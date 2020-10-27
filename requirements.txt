@@ -1,5 +1,5 @@
 Click==7.0
-cryptography==1.7.1
+cryptography==3.2
 distro==1.0.1
 Flask==1.1.1
 google-compute-engine==20191210.0
